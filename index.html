@@ -127,7 +127,7 @@ font-size: 16px !important;
 <input type="text" id="date" placeholder="點擊選擇日期" required readonly class="w-full border border-stone-300 rounded-lg p-2 bg-white cursor-pointer outline-none focus:border-stone-600 text-xs" />
 </div>
 <div>
-<label class="block text-xs font-semibold mb-1 text-stone-700">取貨時間 <span class="text-red-500">*</span></label>
+<label class="block text-xs font-semibold mb-1 text-stone-700">大約取貨時間 <span class="text-red-500">*</span></label>
 <select id="time" required class="w-full border border-stone-300 rounded-lg p-2 bg-white outline-none focus:border-stone-600 text-xs">
 <option value="">選擇時間</option>
 <option value="15:00">15:00</option>
@@ -182,10 +182,10 @@ font-size: 16px !important;
 <div>
 <div class="flex justify-between items-center mb-0.5">
 <label class="block text-[11px] font-semibold text-stone-700">英文題字內容（限英文或數字最多2-3單字 空間不夠不一定能寫得下喔～）</label>
-<span id="letteringCount" class="text-[10px] text-stone-400">0/22</span>
+<span id="letteringCount" class="text-[10px] text-stone-400">0/22 字 (0/3 單字)</span>
 </div>
-<input type="text" id="lettering" maxlength="22" placeholder="例如：Happy Birthday 28 (限英數與空格)" class="w-full border border-stone-300 rounded-lg p-2 outline-none focus:border-stone-600 text-xs bg-white" />
-<p class="text-[10px] text-amber-700 mt-0.5">※ 僅限英數字及空格，上限 22 字（空白鍵也算）</p>
+<input type="text" id="lettering" maxlength="22" placeholder="例如：Happy Birthday 28 (限3單字內)" class="w-full border border-stone-300 rounded-lg p-2 outline-none focus:border-stone-600 text-xs bg-white" />
+<p class="text-[10px] text-amber-700 mt-0.5">※ 僅限英數字及空格，上限 22 字（空白鍵也算），限制三個英文單字內</p>
 </div>
 <div>
 <label class="block text-[11px] font-semibold text-stone-700 mb-0.5">其他客製需求（選填）</label>
@@ -318,30 +318,38 @@ font-size: 16px !important;
 <span id="addonModalIcon">🎂</span>
 <span id="addonModalTitleText">款式挑選</span>
 </h3>
-<button type="button" id="closeAddonModalBtn" class="text-stone-400 hover:text-stone-700 text-2xl leading-none px-1.5 py-0.5 rounded cursor-pointer">&times;</button>
+<div class="flex items-center gap-1.5">
+<button type="button" class="closeAddonModalBtn text-xs bg-stone-100 hover:bg-stone-200 text-stone-700 font-semibold px-2 py-1 rounded-lg border border-stone-300 flex items-center gap-1 transition cursor-pointer" title="回到上一頁">
+<span>⬅️</span> 回到上一頁
+</button>
+<button type="button" class="closeAddonModalBtn text-stone-400 hover:text-stone-700 text-2xl leading-none px-1 rounded cursor-pointer">&times;</button>
+</div>
 </div>
 
 <!-- 說明文字 -->
 <div id="addonModalNotice" class="p-2.5 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900 leading-relaxed flex-shrink-0">
 </div>
 
-<!-- 圖片展示容器（支援上下滑動與點擊在新分頁開啟全螢幕檢視） -->
+<!-- 圖片展示容器（支援上下滑動與點擊開啟大圖） -->
 <div class="flex-1 overflow-y-auto rounded-xl border border-stone-200 bg-stone-100 p-1 flex flex-col items-center justify-center min-h-[250px] relative select-none">
-<img id="addonModalImg" src="" alt="款式價格圖" class="w-full h-auto object-contain rounded-lg shadow-sm cursor-zoom-in" title="點擊檢視大圖" />
+<img id="addonModalImg" src="" alt="款式價格圖" class="w-full h-auto object-contain rounded-lg shadow-sm cursor-zoom-in" title="點擊放大檢視" />
 <div id="addonImgFallback" class="hidden p-6 text-center text-xs text-stone-500">
 <p class="text-3xl mb-1">🖼️</p>
 <p class="font-bold text-stone-700 text-sm" id="addonFallbackTitle">款式圖檔載入中</p>
 <p class="text-[11px] text-stone-500 mt-1">若已有款式截圖，送單後請於 LINE 官方聊天室傳送即可！</p>
 </div>
-<a id="addonOpenFullImg" href="#" target="_blank" rel="noopener noreferrer" class="mt-2 mb-1 text-[11px] text-amber-700 hover:text-amber-900 font-bold underline flex items-center gap-1 cursor-pointer">
-<span>🔍</span> 點此另開視窗放大檢視超清原圖
-</a>
+<button type="button" id="addonOpenFullImg" class="mt-2 mb-1 text-xs text-amber-800 bg-amber-50 hover:bg-amber-100 border border-amber-300 font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 cursor-pointer shadow-xs transition">
+<span>🔍</span> 點此另開視窗放大圖
+</button>
 </div>
 
-<!-- 確認按鈕 -->
-<div class="pt-1 flex-shrink-0">
+<!-- 底部操作按鈕（包含回到上一頁與確認） -->
+<div class="pt-1 flex-shrink-0 grid grid-cols-2 gap-2">
+<button type="button" class="closeAddonModalBtn w-full py-2.5 bg-stone-100 hover:bg-stone-200 active:scale-[0.99] text-stone-700 rounded-xl text-xs font-semibold border border-stone-300 transition flex items-center justify-center gap-1 cursor-pointer">
+<span>⬅️</span> 回到上一頁
+</button>
 <button type="button" id="confirmAddonModalBtn" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 active:scale-[0.99] text-white rounded-xl text-xs font-bold shadow-md transition flex items-center justify-center gap-1.5 cursor-pointer">
-<span>✅</span> 我知道了，送出訂單後貼款式截圖
+<span>✅</span> 我知道了傳截圖
 </button>
 </div>
 </div>
@@ -495,7 +503,9 @@ function closeAddonModal() {
 addonImageModal.classList.add("hidden");
 }
 
-if (closeAddonModalBtn) closeAddonModalBtn.addEventListener("click", closeAddonModal);
+document.querySelectorAll(".closeAddonModalBtn").forEach(btn => {
+btn.addEventListener("click", closeAddonModal);
+});
 if (confirmAddonModalBtn) confirmAddonModalBtn.addEventListener("click", closeAddonModal);
 if (addonImageModal) {
 addonImageModal.addEventListener("click", function(e) {
@@ -503,11 +513,68 @@ if (e.target === addonImageModal) closeAddonModal();
 });
 }
 
-// 點擊圖片放大檢視
+// 另開視窗放大檢視大圖（帶有頂部與底部「回到上一頁」按鈕）
+function openImageInViewerWindow(imgSrc, title) {
+if (!imgSrc) return;
+const viewerWin = window.open('', '_blank');
+if (!viewerWin) {
+window.open(imgSrc, '_blank');
+return;
+}
+const htmlContent = `<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=yes">
+<title>${title} - 超清大圖檢視</title>
+<script src="https://cdn.tailwindcss.com"><\/script>
+<style>
+body { background: #1c1917; color: #f5f5f4; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+</style>
+</head>
+<body class="min-h-screen flex flex-col">
+<!-- 頂部固定導覽列（帶回到上一頁按鈕） -->
+<header class="sticky top-0 z-50 bg-stone-900/95 backdrop-blur border-b border-stone-800 px-3 py-2.5 sm:px-4 sm:py-3 flex items-center justify-between shadow-lg">
+<button type="button" onclick="if(window.history.length > 1){ window.history.back(); } else { window.close(); }" class="flex items-center gap-1.5 bg-amber-600 hover:bg-amber-700 active:scale-95 text-white font-bold text-xs sm:text-sm px-3.5 py-2 rounded-xl transition shadow cursor-pointer">
+<span>⬅️</span> 回到上一頁 (返回預訂單)
+</button>
+<span class="text-xs sm:text-sm font-bold text-stone-200 truncate mx-2">${title}</span>
+<button type="button" onclick="window.close()" class="text-stone-400 hover:text-white text-xs bg-stone-800 hover:bg-stone-700 px-3 py-2 rounded-xl border border-stone-700 cursor-pointer">
+關閉視窗 ✕
+</button>
+</header>
+
+<!-- 大圖展示區（支援手機手勢雙指放大） -->
+<main class="flex-1 p-2 sm:p-4 flex flex-col items-center justify-start overflow-auto">
+<p class="text-[11px] text-stone-400 my-2 text-center">💡 支援手機雙指手勢放大與滑動拖曳，可細看款式細節</p>
+<img src="${imgSrc}" alt="${title}" class="max-w-full h-auto rounded-xl shadow-2xl object-contain border border-stone-800" />
+
+<!-- 底部回到上一頁按鈕 -->
+<div class="my-6 pb-6 text-center">
+<button type="button" onclick="if(window.history.length > 1){ window.history.back(); } else { window.close(); }" class="inline-flex items-center gap-1.5 bg-amber-600 hover:bg-amber-700 active:scale-95 text-white font-bold text-xs sm:text-sm px-5 py-2.5 rounded-xl transition shadow cursor-pointer">
+<span>⬅️</span> 回到上一頁 (返回預訂單)
+</button>
+</div>
+</main>
+</body>
+</html>`;
+
+viewerWin.document.open();
+viewerWin.document.write(htmlContent);
+viewerWin.document.close();
+}
+
+// 點擊「另開視窗放大圖」或點擊圖片，皆開啟附帶「回到上一頁」按鈕的專用檢視頁面
+if (addonOpenFullImg) {
+addonOpenFullImg.addEventListener("click", function(e) {
+e.preventDefault();
+openImageInViewerWindow(addonModalImg.src, addonModalTitleText.innerText);
+});
+}
 if (addonModalImg) {
 addonModalImg.addEventListener("click", function() {
 if (this.src && !this.classList.contains("hidden")) {
-window.open(this.src, '_blank');
+openImageInViewerWindow(this.src, addonModalTitleText.innerText);
 }
 });
 }
@@ -555,7 +622,7 @@ candleDetail.value = "";
 }
 });
 
-// 英文題字輸入限制：僅限英數字與空格，最多 22 字（空白鍵也算）
+// 英文題字輸入限制：僅限英數字與空格，最多 22 字（空白鍵也算），限三個英文單字內
 const letteringInput = document.getElementById("lettering");
 const letteringCount = document.getElementById("letteringCount");
 if (letteringInput) {
@@ -564,8 +631,15 @@ const filtered = this.value.replace(/[^a-zA-Z0-9\s]/g, "").slice(0, 22);
 if (this.value !== filtered) {
 this.value = filtered;
 }
+const words = this.value.trim().split(/\s+/).filter(w => w.length > 0);
 if (letteringCount) {
-letteringCount.innerText = `${this.value.length}/22`;
+if (words.length > 3) {
+letteringCount.className = "text-[10px] text-red-500 font-bold";
+letteringCount.innerText = `${this.value.length}/22 字 (${words.length}/3 單字 ⚠️已超額)`;
+} else {
+letteringCount.className = "text-[10px] text-stone-400";
+letteringCount.innerText = `${this.value.length}/22 字 (${words.length}/3 單字)`;
+}
 }
 });
 }
@@ -1108,7 +1182,7 @@ alert("⚠️ 請填寫正確的手機號碼（共 10 碼，例如：0912345678�
 phoneInput.focus();
 return;
 }
-// 3. 英文題字防呆（僅限英數字與空格，最多 22 字，空白鍵也算）
+// 3. 英文題字防呆（僅限英數字與空格，最多 22 字，空白鍵也算，限制三個英文單字內）
 const letteringRaw = letteringInput ? letteringInput.value : "";
 if (/[^a-zA-Z0-9\s]/.test(letteringRaw)) {
 alert("⚠️ 提醒您：英文題字僅限輸入英文字母、數字與空格（最多 22 字），請勿輸入中文或特殊符號喔！");
@@ -1117,6 +1191,12 @@ return;
 }
 if (letteringRaw.length > 22) {
 alert("⚠️ 英文題字最多 22 個英數字元（空白鍵也算），請縮減後再送出喔！");
+letteringInput.focus();
+return;
+}
+const letteringWords = letteringRaw.trim().split(/\s+/).filter(w => w.length > 0);
+if (letteringWords.length > 3) {
+alert(`⚠️ 提醒您：英文題字目前填寫了 ${letteringWords.length} 個單字，限制在三個英文單字內喔！（空間有限寫不下）\n請縮減為 3 個單字內再送出。`);
 letteringInput.focus();
 return;
 }
