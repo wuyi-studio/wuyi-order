@@ -48,7 +48,7 @@ font-size: 16px !important;
 </p>
 <p class="text-[11px] text-rose-600 leading-relaxed">
 1. 進入 LINE 聊天室後，<strong>務必按下對話框右下角的【傳送鍵】</strong>，我們才收得到訂單喔！<br>
-2. 傳送後，請記得隨手<strong>上傳蛋糕參考圖片</strong>方便我們報價。
+<span id="overlayStep2">2. 傳送後，請記得隨手<strong>上傳蛋糕參考圖片</strong>方便我們報價。</span>
 </p>
 </div>
 <div class="pt-1 space-y-2">
@@ -89,11 +89,31 @@ font-size: 16px !important;
 <label class="flex items-center gap-1.5"><input type="checkbox" name="addons" value="2人餐具 $15" class="rounded" /> 2人餐具 $15</label>
 <label class="flex items-center gap-1.5"><input type="checkbox" name="addons" value="5人餐具 $30" class="rounded" /> 5人餐具 $30</label>
 <label class="flex items-center gap-1.5"><input type="checkbox" name="addons" value="10人餐具 $50" class="rounded" /> 10人餐具 $50</label>
-<label class="flex items-center gap-1.5"><input type="checkbox" name="addons" value="生日插牌／蠟燭" class="rounded" /> 生日插牌／蠟燭</label>
-<label class="flex items-center gap-1.5"><input type="checkbox" id="candleCheckbox" name="addons" value="數字蠟燭 $30/支" class="rounded" /> 數字蠟燭 $30/支</label>
 <label class="flex items-center gap-1.5"><input type="checkbox" name="addons" value="保冰袋/劑 $100" class="rounded" /> 保冰袋/劑 $100</label>
-<label class="flex items-center gap-1.5 col-span-2"><input type="checkbox" id="noAddonsCheckbox" name="addons" value="無" class="rounded" /> 無加購</label>
+<label class="flex items-center gap-1.5"><input type="checkbox" id="candleCustomCheckbox" name="addons" value="蠟燭" class="rounded" /> 蠟燭 (造型) 🖼️</label>
+<label class="flex items-center gap-1.5"><input type="checkbox" id="topperCheckbox" name="addons" value="生日插牌" class="rounded" /> 生日插牌 🖼️</label>
+<label class="flex items-center gap-1.5"><input type="checkbox" id="candleCheckbox" name="addons" value="數字蠟燭 $30/支" class="rounded" /> 數字蠟燭 $30/支</label>
+<label class="flex items-center gap-1.5"><input type="checkbox" id="noAddonsCheckbox" name="addons" value="無" class="rounded" /> 無加購</label>
 </div>
+
+<!-- 勾選蠟燭後的即時貼心提示卡 -->
+<div id="candleNoticeCard" class="hidden mt-1 p-2 bg-amber-50 rounded-lg border border-amber-200 text-xs text-amber-900 flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span>🕯️</span>
+<span class="text-[11px]">已選<strong>蠟燭</strong>（共 99 款），送單後請在 LINE 傳款式截圖</span>
+</div>
+<button type="button" id="reopenCandleModalBtn" class="text-[11px] text-amber-700 underline font-semibold hover:text-amber-900 shrink-0 ml-1 cursor-pointer">看款式圖</button>
+</div>
+
+<!-- 勾選插牌後的即時貼心提示卡 -->
+<div id="topperNoticeCard" class="hidden mt-1 p-2 bg-purple-50 rounded-lg border border-purple-200 text-xs text-purple-900 flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span>🎂</span>
+<span class="text-[11px]">已選<strong>生日插牌</strong>（共 37 款），送單後請在 LINE 傳款式截圖</span>
+</div>
+<button type="button" id="reopenTopperModalBtn" class="text-[11px] text-purple-700 underline font-semibold hover:text-purple-900 shrink-0 ml-1 cursor-pointer">看款式圖</button>
+</div>
+
 <!-- 數字蠟燭歲數欄 -->
 <div id="candleField" class="hidden mt-1 p-2 bg-amber-50 rounded-lg border border-amber-200">
 <label class="block text-[11px] font-semibold text-amber-900 mb-0.5">🕯️ 數字蠟燭歲數（必填歲數或填問號）：<span class="text-red-500">*</span></label>
@@ -124,7 +144,9 @@ font-size: 16px !important;
 </div>
 <!-- 提前預訂防呆與地點 -->
 <div id="bookingRulesInfo" class="p-2 bg-amber-50 rounded-lg border border-amber-200 text-[11px] text-amber-800 space-y-0.5">
-<div>⏳ <strong>預訂須知：</strong>手作新鮮蛋糕<span id="ruleDaysText"><strong>需提前一週預約</strong></span><br>（每日 18:00 截單；週一固定公休）。</div>
+<div>⏳ <strong>預訂須知：</strong>手作新鮮蛋糕<span id="ruleDaysText"><strong>需提前一週預約</strong></span><br>
+<span class="inline-block pl-5 font-medium text-amber-900">不好意思也沒有畫畫的款式喔～</span><br>
+（每日 18:00 截單；週一固定公休）。</div>
 <div>📍 <strong>自取地點：</strong>台南市中西區友愛街９３號</div>
 </div>
 <!-- 4. 訂購人資訊（加強手機格式防呆） -->
@@ -158,8 +180,12 @@ font-size: 16px !important;
 <input type="text" id="cakeColor" maxlength="40" placeholder="例如：如圖款,粉,藍,紫,灰,白(或LINE討論)" class="w-full border border-stone-300 rounded-lg p-2 outline-none focus:border-stone-600 text-xs bg-white" />
 </div>
 <div>
-<label class="block text-[11px] font-semibold text-stone-700 mb-0.5">英文題字內容（選填，限英文最多2-3字）</label>
-<input type="text" id="lettering" maxlength="30" placeholder="例如：Happy Birthday,HBD" class="w-full border border-stone-300 rounded-lg p-2 outline-none focus:border-stone-600 text-xs bg-white" />
+<div class="flex justify-between items-center mb-0.5">
+<label class="block text-[11px] font-semibold text-stone-700">英文題字內容（限英文或數字最多2-3單字 空間不夠不一定能寫得下喔～）</label>
+<span id="letteringCount" class="text-[10px] text-stone-400">0/22</span>
+</div>
+<input type="text" id="lettering" maxlength="22" placeholder="例如：Happy Birthday 28 (限英數與空格)" class="w-full border border-stone-300 rounded-lg p-2 outline-none focus:border-stone-600 text-xs bg-white" />
+<p class="text-[10px] text-amber-700 mt-0.5">※ 僅限英數字及空格，上限 22 字（空白鍵也算）</p>
 </div>
 <div>
 <label class="block text-[11px] font-semibold text-stone-700 mb-0.5">其他客製需求（選填）</label>
@@ -282,6 +308,44 @@ font-size: 16px !important;
 </div>
 </div>
 </div>
+
+<!-- 🖼️ 加購款式挑選彈窗 (生日插牌 / 蠟燭) -->
+<div id="addonImageModal" class="hidden fixed inset-0 bg-black/75 z-50 flex items-center justify-center p-2.5 sm:p-4">
+<div class="bg-white rounded-2xl max-w-sm sm:max-w-md w-full p-4 shadow-2xl border border-stone-200 space-y-3 max-h-[92vh] flex flex-col">
+<!-- 標頭 -->
+<div class="flex items-center justify-between border-b pb-2 flex-shrink-0">
+<h3 id="addonModalTitle" class="text-sm font-bold text-stone-800 flex items-center gap-1.5">
+<span id="addonModalIcon">🎂</span>
+<span id="addonModalTitleText">款式挑選</span>
+</h3>
+<button type="button" id="closeAddonModalBtn" class="text-stone-400 hover:text-stone-700 text-2xl leading-none px-1.5 py-0.5 rounded cursor-pointer">&times;</button>
+</div>
+
+<!-- 說明文字 -->
+<div id="addonModalNotice" class="p-2.5 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900 leading-relaxed flex-shrink-0">
+</div>
+
+<!-- 圖片展示容器（支援上下滑動與點擊在新分頁開啟全螢幕檢視） -->
+<div class="flex-1 overflow-y-auto rounded-xl border border-stone-200 bg-stone-100 p-1 flex flex-col items-center justify-center min-h-[250px] relative select-none">
+<img id="addonModalImg" src="" alt="款式價格圖" class="w-full h-auto object-contain rounded-lg shadow-sm cursor-zoom-in" title="點擊檢視大圖" />
+<div id="addonImgFallback" class="hidden p-6 text-center text-xs text-stone-500">
+<p class="text-3xl mb-1">🖼️</p>
+<p class="font-bold text-stone-700 text-sm" id="addonFallbackTitle">款式圖檔載入中</p>
+<p class="text-[11px] text-stone-500 mt-1">若已有款式截圖，送單後請於 LINE 官方聊天室傳送即可！</p>
+</div>
+<a id="addonOpenFullImg" href="#" target="_blank" rel="noopener noreferrer" class="mt-2 mb-1 text-[11px] text-amber-700 hover:text-amber-900 font-bold underline flex items-center gap-1 cursor-pointer">
+<span>🔍</span> 點此另開視窗放大檢視超清原圖
+</a>
+</div>
+
+<!-- 確認按鈕 -->
+<div class="pt-1 flex-shrink-0">
+<button type="button" id="confirmAddonModalBtn" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 active:scale-[0.99] text-white rounded-xl text-xs font-bold shadow-md transition flex items-center justify-center gap-1.5 cursor-pointer">
+<span>✅</span> 我知道了，送出訂單後貼款式截圖
+</button>
+</div>
+</div>
+</div>
 <script>
 const LINE_OA_ID = "@230fpemy";
 // Google 試算表（Google Apps Script 雲端同步網址）
@@ -352,6 +416,8 @@ if (this.checked) {
 otherAddons.forEach(cb => { cb.checked = false; });
 candleField.classList.add("hidden");
 candleDetail.value = "";
+if (topperNoticeCard) topperNoticeCard.classList.add("hidden");
+if (candleNoticeCard) candleNoticeCard.classList.add("hidden");
 }
 });
 otherAddons.forEach(cb => {
@@ -361,6 +427,122 @@ noAddonsCheckbox.checked = false;
 }
 });
 });
+
+// 生日插牌 & 造型蠟燭 款式彈窗控制
+const topperCheckbox = document.getElementById("topperCheckbox");
+const candleCustomCheckbox = document.getElementById("candleCustomCheckbox");
+const topperNoticeCard = document.getElementById("topperNoticeCard");
+const candleNoticeCard = document.getElementById("candleNoticeCard");
+const reopenTopperModalBtn = document.getElementById("reopenTopperModalBtn");
+const reopenCandleModalBtn = document.getElementById("reopenCandleModalBtn");
+
+const addonImageModal = document.getElementById("addonImageModal");
+const addonModalIcon = document.getElementById("addonModalIcon");
+const addonModalTitleText = document.getElementById("addonModalTitleText");
+const addonModalNotice = document.getElementById("addonModalNotice");
+const addonModalImg = document.getElementById("addonModalImg");
+const addonOpenFullImg = document.getElementById("addonOpenFullImg");
+const addonImgFallback = document.getElementById("addonImgFallback");
+const addonFallbackTitle = document.getElementById("addonFallbackTitle");
+const closeAddonModalBtn = document.getElementById("closeAddonModalBtn");
+const confirmAddonModalBtn = document.getElementById("confirmAddonModalBtn");
+
+function openAddonModal(type) {
+if (type === 'topper') {
+addonModalIcon.innerText = "🎂";
+addonModalTitleText.innerText = "生日插牌款式一覽（共 37 款）";
+addonModalNotice.innerHTML = `
+<p class="font-bold text-amber-950 flex items-center gap-1 mb-0.5">
+<span>💡</span> 挑選與傳送說明（共 37 款）：
+</p>
+<p class="text-[11px] leading-relaxed text-amber-900">
+圖片中共有 <strong>37 款精緻生日插牌</strong>可挑選！<br>
+完成表單送出後，請於<strong>進入 LINE 官方對話中，直接貼上您挑選的那一款插牌【截圖】</strong>，由客服為您確認備貨與報價喔！
+</p>
+`;
+addonModalImg.src = "插排價格.png";
+addonOpenFullImg.href = "插排價格.png";
+addonFallbackTitle.innerText = "插排價格.png 款式圖";
+} else if (type === 'candle') {
+addonModalIcon.innerText = "🕯️";
+addonModalTitleText.innerText = "蠟燭款式一覽（共 99 款）";
+addonModalNotice.innerHTML = `
+<p class="font-bold text-amber-950 flex items-center gap-1 mb-0.5">
+<span>💡</span> 挑選與傳送說明（共 99 款）：
+</p>
+<p class="text-[11px] leading-relaxed text-amber-900">
+圖片中共有 <strong>99 款造型蠟燭</strong>可挑選（⚠️ <strong>右下角藍框內之一般配件不包含</strong>）！<br>
+完成表單送出後，請於<strong>進入 LINE 官方對話中，直接貼上您挑選的那一款蠟燭【截圖】</strong>，由客服為您確認備貨與報價喔！
+</p>
+`;
+addonModalImg.src = "蠟燭價格.png";
+addonOpenFullImg.href = "蠟燭價格.png";
+addonFallbackTitle.innerText = "蠟燭價格.png 款式圖";
+}
+
+addonModalImg.classList.remove("hidden");
+addonImgFallback.classList.add("hidden");
+
+addonModalImg.onerror = function() {
+this.classList.add("hidden");
+addonImgFallback.classList.remove("hidden");
+};
+
+addonImageModal.classList.remove("hidden");
+}
+
+function closeAddonModal() {
+addonImageModal.classList.add("hidden");
+}
+
+if (closeAddonModalBtn) closeAddonModalBtn.addEventListener("click", closeAddonModal);
+if (confirmAddonModalBtn) confirmAddonModalBtn.addEventListener("click", closeAddonModal);
+if (addonImageModal) {
+addonImageModal.addEventListener("click", function(e) {
+if (e.target === addonImageModal) closeAddonModal();
+});
+}
+
+// 點擊圖片放大檢視
+if (addonModalImg) {
+addonModalImg.addEventListener("click", function() {
+if (this.src && !this.classList.contains("hidden")) {
+window.open(this.src, '_blank');
+}
+});
+}
+
+// 勾選生日插牌觸發彈窗
+if (topperCheckbox) {
+topperCheckbox.addEventListener("change", function() {
+if (this.checked) {
+if (topperNoticeCard) topperNoticeCard.classList.remove("hidden");
+openAddonModal('topper');
+} else {
+if (topperNoticeCard) topperNoticeCard.classList.add("hidden");
+}
+});
+}
+
+// 勾選蠟燭觸發彈窗
+if (candleCustomCheckbox) {
+candleCustomCheckbox.addEventListener("change", function() {
+if (this.checked) {
+if (candleNoticeCard) candleNoticeCard.classList.remove("hidden");
+openAddonModal('candle');
+} else {
+if (candleNoticeCard) candleNoticeCard.classList.add("hidden");
+}
+});
+}
+
+// 重新查看款式圖按鈕
+if (reopenTopperModalBtn) {
+reopenTopperModalBtn.addEventListener("click", () => openAddonModal('topper'));
+}
+if (reopenCandleModalBtn) {
+reopenCandleModalBtn.addEventListener("click", () => openAddonModal('candle'));
+}
 
 // 數字蠟燭展開
 candleCheckbox.addEventListener("change", function() {
@@ -372,6 +554,21 @@ candleField.classList.add("hidden");
 candleDetail.value = "";
 }
 });
+
+// 英文題字輸入限制：僅限英數字與空格，最多 22 字（空白鍵也算）
+const letteringInput = document.getElementById("lettering");
+const letteringCount = document.getElementById("letteringCount");
+if (letteringInput) {
+letteringInput.addEventListener("input", function() {
+const filtered = this.value.replace(/[^a-zA-Z0-9\s]/g, "").slice(0, 22);
+if (this.value !== filtered) {
+this.value = filtered;
+}
+if (letteringCount) {
+letteringCount.innerText = `${this.value.length}/22`;
+}
+});
+}
 
 // 格式化 YYYY-MM-DD
 const formatYMD = (d) => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
@@ -911,18 +1108,29 @@ alert("⚠️ 請填寫正確的手機號碼（共 10 碼，例如：0912345678�
 phoneInput.focus();
 return;
 }
-// 3. 英文題字中文字檢查防呆
-const letteringInput = document.getElementById("lettering");
-const letteringVal = letteringInput.value.trim();
-if (/[\u4e00-\u9fa5]/.test(letteringVal)) {
-alert("⚠️ 提醒您：題字目前僅提供英文（最多2-3個字，如 HBD），暫無提供中文題字喔！請修改後再送出。");
+// 3. 英文題字防呆（僅限英數字與空格，最多 22 字，空白鍵也算）
+const letteringRaw = letteringInput ? letteringInput.value : "";
+if (/[^a-zA-Z0-9\s]/.test(letteringRaw)) {
+alert("⚠️ 提醒您：英文題字僅限輸入英文字母、數字與空格（最多 22 字），請勿輸入中文或特殊符號喔！");
 letteringInput.focus();
 return;
 }
+if (letteringRaw.length > 22) {
+alert("⚠️ 英文題字最多 22 個英數字元（空白鍵也算），請縮減後再送出喔！");
+letteringInput.focus();
+return;
+}
+const letteringVal = letteringRaw.trim();
 // 處理加購項目
 let selectedAddons = Array.from(document.querySelectorAll('input[name="addons"]:checked')).map(el => el.value);
 if (candleCheckbox.checked && candleDetail.value.trim() !== "") {
 selectedAddons = selectedAddons.map(item => item.includes("數字蠟燭") ? `數字蠟燭 $30/支 (${candleDetail.value.trim()})` : item);
+}
+if (topperCheckbox && topperCheckbox.checked) {
+selectedAddons = selectedAddons.map(item => item === "生日插牌" ? "生日插牌 (對話中傳款式截圖)" : item);
+}
+if (candleCustomCheckbox && candleCustomCheckbox.checked) {
+selectedAddons = selectedAddons.map(item => item === "蠟燭" ? "蠟燭 (對話中傳款式截圖)" : item);
 }
 const addonsText = selectedAddons.length > 0 ? selectedAddons.join("、") : "無";
 const cakeColor = document.getElementById("cakeColor").value.trim() || "無 / LINE討論";
@@ -942,6 +1150,12 @@ lineName: document.getElementById("lineName").value.trim(),
 name: document.getElementById("name").value.trim(),
 phone: cleanPhone
 };
+
+const extraRemindList = [];
+if (topperCheckbox && topperCheckbox.checked) extraRemindList.push("插牌款式截圖");
+if (candleCustomCheckbox && candleCustomCheckbox.checked) extraRemindList.push("蠟燭款式截圖");
+const photoNoticeDetail = extraRemindList.length > 0 ? `及【${extraRemindList.join('與')}】` : "";
+
 const message =
 `【蛋糕訂購資訊】
 蛋糕體顏色：${orderData.cakeColor}
@@ -962,7 +1176,7 @@ const message =
 訂購人姓名：${orderData.name}
 訂購人電話：${orderData.phone}
 
-圖片提醒：已確認送出後傳送參考圖片報價`;
+圖片提醒：已確認送出後傳送參考圖片${photoNoticeDetail}報價`;
 
 // 自動複製到剪貼簿備用
 if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -989,6 +1203,14 @@ const encodedId = encodeURIComponent(LINE_OA_ID);
 const encodedMsg = encodeURIComponent(message);
 const lineUrl = `https://line.me/R/oaMessage/${encodedId}/?${encodedMsg}`;
 // 顯示覆蓋畫面並提醒按發送
+const overlayStep2 = document.getElementById("overlayStep2");
+if (overlayStep2) {
+if (extraRemindList.length > 0) {
+overlayStep2.innerHTML = `2. 傳送後，請記得隨手<strong>上傳蛋糕參考圖片</strong>及<strong>【${extraRemindList.join('與')}】</strong>方便我們為您報價。`;
+} else {
+overlayStep2.innerHTML = `2. 傳送後，請記得隨手<strong>上傳蛋糕參考圖片</strong>方便我們報價。`;
+}
+}
 document.getElementById("cakeOrderForm").classList.add("hidden");
 const overlay = document.getElementById("successOverlay");
 overlay.classList.remove("hidden");
